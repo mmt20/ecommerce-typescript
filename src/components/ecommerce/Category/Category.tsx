@@ -1,14 +1,9 @@
 import { Link } from "react-router-dom";
 import styles from "./styles.module.css";
+import type { TCategory } from "src/types/category";
 const { category, categoryImg, categoryTitle } = styles;
 
-interface IProps {
-  title: string;
-  prefix: string;
-  img: string;
-}
-
-const Category = ({ img, prefix, title }: IProps) => {
+const Category = ({ img, prefix, title }: TCategory) => {
   return (
     <Link to={`/categories/products/${prefix}`} style={{ textDecoration: "none", color: "inherit" }}>
       <div className={category}>
