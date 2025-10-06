@@ -38,6 +38,9 @@ importers:
       react-router-dom:
         specifier: ^7.9.2
         version: 7.9.2(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+      redux:
+        specifier: ^5.0.1
+        version: 5.0.1
       vite-plugin-svgr:
         specifier: ^4.5.0
         version: 4.5.0(rollup@4.52.2)(typescript@5.8.3)(vite@7.1.7(@types/node@24.5.2))

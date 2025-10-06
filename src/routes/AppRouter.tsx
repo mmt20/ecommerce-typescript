@@ -25,7 +25,7 @@ const AppRouter = () => {
           element: <Categories />,
         },
         {
-          path: "products/:prefix",
+          path: "categories/products/:prefix",
           loader: ({ params }) => {
             if (typeof params.prefix !== "string" || !/^[a-z]+$/i.test(params.prefix)) {
               throw new Response("Bad Request", {
