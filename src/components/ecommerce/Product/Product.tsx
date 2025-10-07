@@ -1,22 +1,23 @@
 import { Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import styles from "./styles.module.css";
+import type { TProduct } from "src/types/product";
 const { product, productImg } = styles;
 
-const Product = () => {
+const Product = ({ cat_prefix, img, title, price }: TProduct) => {
   return (
-    <div className={product}>
-      <div className={productImg}>
-        <img
-          src="https://eg.hm.com/assets/styles/HNM/14482498/6103a8463876770c30cdba3535b7be1f333315fe/2/image-thumb__3464789__product_listing/cb91f8f128ac2125e0ec3a008a2e8d2497d15434.jpg"
-          alt=""
-        />
+    <Link to={`/products/${cat_prefix}`} style={{ textDecoration: "none", color: "black" }}>
+      <div className={product}>
+        <div className={productImg}>
+          <img src={img} alt={title} />
+        </div>
+        <h2>Title :{title}</h2>
+        <h3>{price} EGP</h3>
+        <Button variant="info" style={{ color: "white" }}>
+          Add to cart
+        </Button>
       </div>
-      <h2>Title</h2>
-      <h3>10 EGP</h3>
-      <Button variant="info" style={{ color: "white" }}>
-        Add to cart
-      </Button>
-    </div>
+    </Link>
   );
 };
 
