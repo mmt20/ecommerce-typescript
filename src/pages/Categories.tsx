@@ -8,8 +8,10 @@ const Categories = () => {
   const dispatch = useAppDispatch();
   const { records } = useAppSelector((state) => state.Categories);
   useEffect(() => {
-    dispatch(actGetCategories());
-  }, [dispatch]);
+    if (!records.length) {
+      dispatch(actGetCategories());
+    }
+  }, [dispatch, records.length]);
   const CategoriesList =
     records.length > 0
       ? records.map((category) => (
