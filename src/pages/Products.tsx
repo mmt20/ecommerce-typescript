@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { Product } from "@components/eCommerce";
 import { useAppDispatch, useAppSelector } from "@store/hooks";
-import { actGetProductsByCatPrefix } from "@store/products/productsSlice";
+import { actGetProductsByCatPrefix, productsCleanUp } from "@store/products/productsSlice";
 import { useParams } from "react-router-dom";
 
 const Products = () => {
@@ -11,6 +11,9 @@ const Products = () => {
   const { records } = useAppSelector((state) => state.Product);
   useEffect(() => {
     dispatch(actGetProductsByCatPrefix(prefix as string));
+    return () => {
+      dispatch(productsCleanUp());
+    };
   }, [dispatch, prefix]);
   const ProductList =
     records.length > 0
