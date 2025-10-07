@@ -6,12 +6,12 @@ import { actGetCategories } from "@store/categories/categoriesSlice";
 
 const Categories = () => {
   const dispatch = useAppDispatch();
-  const { records } = useAppSelector((state) => state.Categories);
+  const { records, loading } = useAppSelector((state) => state.Categories);
   useEffect(() => {
-    if (!records.length) {
+    if (loading === "idle") {
       dispatch(actGetCategories());
     }
-  }, [dispatch, records.length]);
+  }, [dispatch, loading]);
   const CategoriesList =
     records.length > 0
       ? records.map((category) => (
