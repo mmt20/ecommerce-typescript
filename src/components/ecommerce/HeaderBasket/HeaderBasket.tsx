@@ -7,7 +7,7 @@ const { basketContainer, basketQuantity } = styles;
 
 const HeaderBasket = () => {
   const totalQuantity = useAppSelector(getCartTotalQuantitySelector);
-  console.log("HeaderBasket rendered");
+
   return (
     <div className={basketContainer}>
       <Logo />
