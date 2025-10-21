@@ -6,11 +6,18 @@ import { actGetProductsByCatPrefix, productsCleanUp } from "@store/products/prod
 import { useParams } from "react-router-dom";
 import { Loading } from "@components/feedback";
 import { GridList } from "@components/common";
+import type { TProduct } from "src/types/product";
 
 const Products = () => {
   const { prefix } = useParams<{ prefix: string }>();
   const dispatch = useAppDispatch();
-  const { records, loading, error } = useAppSelector((state) => state.product);
+  const { records, loading, error } = useAppSelector((state) => state.products);
+  const cartItems = useAppSelector((state) => state.cart.items);
+  const ProductsFullInfo = records.map((product) => ({
+    ...product,
+    quantity: cartItems[product.id] || 0,
+  }));
+
   useEffect(() => {
     dispatch(actGetProductsByCatPrefix(prefix as string));
     return () => {
@@ -21,7 +28,7 @@ const Products = () => {
   return (
     <Container>
       <Loading status={loading} error={error}>
-        <GridList records={records} renderItem={(record) => <Product {...record} />} />
+        <GridList<TProduct> records={ProductsFullInfo} renderItem={(record) => <Product {...record} />} />
       </Loading>
     </Container>
   );
