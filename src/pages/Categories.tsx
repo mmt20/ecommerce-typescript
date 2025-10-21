@@ -8,7 +8,7 @@ import { Loading } from "@components/feedback";
 
 const Categories = () => {
   const dispatch = useAppDispatch();
-  const { records, error, loading } = useAppSelector((state) => state.Categories);
+  const { records, error, loading } = useAppSelector((state) => state.categories);
   useEffect(() => {
     if (loading === "idle") {
       dispatch(actGetCategories());

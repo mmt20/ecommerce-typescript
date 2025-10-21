@@ -10,7 +10,7 @@ import { GridList } from "@components/common";
 const Products = () => {
   const { prefix } = useParams<{ prefix: string }>();
   const dispatch = useAppDispatch();
-  const { records, loading, error } = useAppSelector((state) => state.Product);
+  const { records, loading, error } = useAppSelector((state) => state.product);
   useEffect(() => {
     dispatch(actGetProductsByCatPrefix(prefix as string));
     return () => {

@@ -1,9 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
-import Categories from "./categories/categoriesSlice";
-import Product from "./products/productsSlice";
+import categoriesSlice from "./categories/categoriesSlice";
+import productsSlice from "./products/productsSlice";
+import cartSlice from "./cart/cartSlice";
 
 export const store = configureStore({
-  reducer: { Categories, Product },
+  reducer: {
+    categories: categoriesSlice,
+    product: productsSlice,
+    cart: cartSlice,
+  },
 });
 
 export type RootState = ReturnType<typeof store.getState>;
