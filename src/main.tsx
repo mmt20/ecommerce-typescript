@@ -4,6 +4,9 @@ import AppRouter from "@routes/AppRouter";
 import { Provider } from "react-redux";
 import { store, persistor } from "@store/index";
 import { PersistGate } from "redux-persist/integration/react";
+// axios
+import "./service/axios-golbal";
+
 // styles
 import "bootstrap/dist/css/bootstrap.min.css";
 
