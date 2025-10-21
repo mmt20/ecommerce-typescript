@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from "@store/hooks";
 import { actGetProductsByCatPrefix, productsCleanUp } from "@store/products/productsSlice";
 import { useParams } from "react-router-dom";
 import { Loading } from "@components/feedback";
-import { GridList } from "@components/common";
+import { GridList, Heading } from "@components/common";
 import type { TProduct } from "src/types/product";
 
 const Products = () => {
@@ -27,6 +27,9 @@ const Products = () => {
 
   return (
     <Container>
+      <Heading>
+        <span className="text-capitalize">{prefix}</span> Products
+      </Heading>
       <Loading status={loading} error={error}>
         <GridList<TProduct> records={ProductsFullInfo} renderItem={(record) => <Product {...record} />} />
       </Loading>
