@@ -10,6 +10,8 @@ import Products from "@pages/Products";
 import AboutUs from "@pages/AboutUs";
 import Login from "@pages/Login";
 import Register from "@pages/Register";
+import Cart from "@pages/Cart";
+
 const AppRouter = () => {
   const router = createBrowserRouter([
     {
@@ -49,6 +51,10 @@ const AppRouter = () => {
         {
           path: "register",
           element: <Register />,
+        },
+        {
+          path: "cart",
+          element: <Cart />,
         },
         {
           path: "*",

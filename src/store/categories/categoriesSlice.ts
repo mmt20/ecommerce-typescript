@@ -30,7 +30,9 @@ const CategoriesSlice = createSlice({
     });
     builder.addCase(actGetCategories.rejected, (state, action) => {
       state.loading = "failed";
-      state.error = action.payload as string;
+      if (action.payload && typeof action.payload === "string") {
+        state.error = action.payload;
+      }
     });
   },
 });
