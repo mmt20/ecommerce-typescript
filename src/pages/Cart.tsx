@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@store/hooks";
-import { actGetProductsByItems } from "@store/cart/cartSlice";
+import { actGetProductsByItems, cartItemChangeQuantity } from "@store/cart/cartSlice";
 import { Heading } from "@components/common";
 import { Loading } from "@components/feedback";
 import type { TProduct } from "src/types/product";
@@ -15,7 +15,7 @@ const Cart = () => {
   }, [dispatch, items]);
   const products = productsFullInfo.map((product: TProduct) => ({ ...product, quantity: items[product.id] }));
   const changeQuantityHandler = (productId: number, quantity: number) => {
-    console.log("Change quantity", productId, quantity);
+    dispatch(cartItemChangeQuantity({ productId, quantity }));
   };
   return (
     <>
