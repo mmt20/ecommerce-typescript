@@ -14,12 +14,14 @@ const Cart = () => {
     dispatch(actGetProductsByItems());
   }, [dispatch, items]);
   const products = productsFullInfo.map((product: TProduct) => ({ ...product, quantity: items[product.id] }));
-
+  const changeQuantityHandler = (productId: number, quantity: number) => {
+    console.log("Change quantity", productId, quantity);
+  };
   return (
     <>
       <Heading>Cart</Heading>
       <Loading error={error} status={loading}>
-        <CartItemList products={products} />
+        <CartItemList products={products} changeQuantityHandler={changeQuantityHandler} />
         <CartSubtotalPrice />
       </Loading>
     </>

@@ -2,8 +2,11 @@ import { Form, Button } from "react-bootstrap";
 import type { TProduct } from "src/types/product";
 import styles from "./styles.module.css";
 const { cartItem, product, productImg, productInfo, cartItemSelection } = styles;
-type cartItemProps = TProduct;
-const CartItem = ({ img, price, title, max, quantity }: cartItemProps) => {
+type cartItemProps = TProduct & {
+  changeQuantityHandler: (productId: number, quantity: number) => void;
+};
+const CartItem = ({ id, img, price, title, max, quantity, changeQuantityHandler }: cartItemProps) => {
+  // render option list
   const renderQuantityOptions = Array(max)
     .fill(0)
     .map((_, index) => (
@@ -12,6 +15,10 @@ const CartItem = ({ img, price, title, max, quantity }: cartItemProps) => {
       </option>
     ));
 
+  const changeQuantity = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const newQuantity = parseInt(event.target.value, 10);
+    changeQuantityHandler(id, newQuantity);
+  };
   return (
     <div className={cartItem}>
       <div className={product}>
@@ -29,7 +36,7 @@ const CartItem = ({ img, price, title, max, quantity }: cartItemProps) => {
 
       <div className={cartItemSelection}>
         <span className="d-block mb-1">Quantity</span>
-        <Form.Select aria-label="Default select example" value={quantity}>
+        <Form.Select aria-label="Default select example" value={quantity} onChange={changeQuantity}>
           {renderQuantityOptions}
         </Form.Select>
       </div>
