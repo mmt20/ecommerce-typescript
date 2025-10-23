@@ -1,10 +1,21 @@
+import type { TProduct } from "src/types/product";
 import styles from "./styles.module.css";
 
-const CartSubtotalPrice = () => {
+type CartSubtotalPriceProps = { products: TProduct[] };
+const CartSubtotalPrice = ({ products }: CartSubtotalPriceProps) => {
+  const subtotal = products.reduce((total, product) => {
+    const price = product.price;
+    const quantity = product.quantity;
+    if (quantity && typeof quantity === "number") {
+      return total + price * quantity;
+    } else {
+      return total;
+    }
+  }, 0);
   return (
     <div className={styles.container}>
       <span>Subtotal:</span>
-      <span>3000 EGP</span>
+      <span>{subtotal} EGP</span>
     </div>
   );
 };
