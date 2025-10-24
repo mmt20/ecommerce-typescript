@@ -11,6 +11,7 @@ import AboutUs from "@pages/AboutUs";
 import Login from "@pages/Login";
 import Register from "@pages/Register";
 import Cart from "@pages/Cart";
+import Wishlist from "@pages/Wishlist";
 
 const AppRouter = () => {
   const router = createBrowserRouter([
@@ -55,6 +56,10 @@ const AppRouter = () => {
         {
           path: "cart",
           element: <Cart />,
+        },
+        {
+          path: "wishlist",
+          element: <Wishlist />,
         },
         {
           path: "*",

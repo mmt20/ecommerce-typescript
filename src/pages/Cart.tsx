@@ -1,6 +1,11 @@
 import { useCallback, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@store/hooks";
-import { actGetProductsByItems, cartItemChangeQuantity, cartRemoveItem } from "@store/cart/cartSlice";
+import {
+  actGetProductsByItems,
+  cartItemChangeQuantity,
+  cartRemoveItem,
+  productsFullInfoCleanUp,
+} from "@store/cart/cartSlice";
 import { Heading } from "@components/common";
 import { Loading } from "@components/feedback";
 import type { TProduct } from "src/types/product";
@@ -12,6 +17,10 @@ const Cart = () => {
 
   useEffect(() => {
     dispatch(actGetProductsByItems());
+
+    return () => {
+      dispatch(productsFullInfoCleanUp());
+    };
   }, [dispatch]);
 
   const products = productsFullInfo.map((product: TProduct) => ({
