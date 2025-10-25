@@ -1,31 +1,47 @@
+import { lazy, Suspense } from "react";
+
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 // layouts
-import MainLayout from "@layouts/MainLayout/MainLayout";
+const MainLayout = lazy(() => import("@layouts/MainLayout/MainLayout"));
 
 // pages
-import Home from "@pages/Home";
-import Categories from "@pages/Categories";
-import Error from "@pages/Error";
-import Products from "@pages/Products";
-import AboutUs from "@pages/AboutUs";
-import Login from "@pages/Login";
-import Register from "@pages/Register";
-import Cart from "@pages/Cart";
-import Wishlist from "@pages/Wishlist";
+const Home = lazy(() => import("@pages/Home"));
+const Categories = lazy(() => import("@pages/Categories"));
+const Error = lazy(() => import("@pages/Error"));
+const Products = lazy(() => import("@pages/Products"));
+const AboutUs = lazy(() => import("@pages/AboutUs"));
+const Login = lazy(() => import("@pages/Login"));
+const Register = lazy(() => import("@pages/Register"));
+const Cart = lazy(() => import("@pages/Cart"));
+const Wishlist = lazy(() => import("@pages/Wishlist"));
+
+const LoadingFallback = () => <div>Loading...</div>;
 
 const AppRouter = () => {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <MainLayout />,
+      element: (
+        <Suspense fallback={<LoadingFallback />}>
+          <MainLayout />
+        </Suspense>
+      ),
       children: [
         {
           index: true,
-          element: <Home />,
+          element: (
+            <Suspense fallback={<LoadingFallback />}>
+              <Home />
+            </Suspense>
+          ),
         },
         {
           path: "categories",
-          element: <Categories />,
+          element: (
+            <Suspense fallback={<LoadingFallback />}>
+              <Categories />
+            </Suspense>
+          ),
         },
         {
           path: "categories/products/:prefix",
@@ -38,28 +54,52 @@ const AppRouter = () => {
             }
             return true;
           },
-          element: <Products />,
+          element: (
+            <Suspense fallback={<LoadingFallback />}>
+              <Products />
+            </Suspense>
+          ),
           errorElement: <Error />,
         },
         {
           path: "about-us",
-          element: <AboutUs />,
+          element: (
+            <Suspense fallback={<LoadingFallback />}>
+              <AboutUs />
+            </Suspense>
+          ),
         },
         {
           path: "login",
-          element: <Login />,
+          element: (
+            <Suspense fallback={<LoadingFallback />}>
+              <Login />
+            </Suspense>
+          ),
         },
         {
           path: "register",
-          element: <Register />,
+          element: (
+            <Suspense fallback={<LoadingFallback />}>
+              <Register />
+            </Suspense>
+          ),
         },
         {
           path: "cart",
-          element: <Cart />,
+          element: (
+            <Suspense fallback={<LoadingFallback />}>
+              <Cart />
+            </Suspense>
+          ),
         },
         {
           path: "wishlist",
-          element: <Wishlist />,
+          element: (
+            <Suspense fallback={<LoadingFallback />}>
+              <Wishlist />
+            </Suspense>
+          ),
         },
         {
           path: "*",
