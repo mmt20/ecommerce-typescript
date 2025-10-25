@@ -9,7 +9,6 @@ type cartItemProps = TProduct & {
 };
 const CartItem = memo(
   ({ id, img, price, title, max, quantity, changeQuantityHandler, removeItemHandler }: cartItemProps) => {
-    console.log("Cart Item Rendered => ", id, "Quantity => ", quantity);
     // render option list
     const renderQuantityOptions = Array(max)
       .fill(0)
