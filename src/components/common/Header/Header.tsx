@@ -10,7 +10,7 @@ const Header = () => {
     <header>
       <div className={headerContainer}>
         <h1 className={headerLogo}>
-          <span>Our</span> <Badge bg="info">Ecom</Badge>
+          <span>Our</span> <Badge bg="info">eCom</Badge>
         </h1>
         {/* Left bar */}
         <HeaderLeftBar />
