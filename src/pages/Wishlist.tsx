@@ -29,7 +29,7 @@ const Wishlist = () => {
   return (
     <div>
       <Container>
-        <Heading>Wishlist</Heading>
+        <Heading title="Wishlist" />
         <Loading status={loading} error={error}>
           <GridList<TProduct> records={records} renderItem={(record) => <Product {...record} />} />
         </Loading>

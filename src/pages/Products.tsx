@@ -12,8 +12,10 @@ const Products = () => {
   const { prefix } = useParams<{ prefix: string }>();
   const dispatch = useAppDispatch();
   const { records, loading, error } = useAppSelector((state) => state.products);
+
   const cartItems = useAppSelector((state) => state.cart.items);
   const wishlistItemsId = useAppSelector((state) => state.wishlist.itemsId);
+
   const ProductsFullInfo = records.map((product) => ({
     ...product,
     quantity: cartItems[product.id] || 0,
@@ -29,9 +31,8 @@ const Products = () => {
 
   return (
     <Container>
-      <Heading>
-        <span className="text-capitalize">{prefix}</span> Products
-      </Heading>
+      <Heading title={`${prefix?.toUpperCase()} Products`} />
+
       <Loading status={loading} error={error}>
         <GridList<TProduct> records={ProductsFullInfo} renderItem={(record) => <Product {...record} />} />
       </Loading>
