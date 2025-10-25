@@ -4,7 +4,7 @@ import {
   actGetProductsByItems,
   cartItemChangeQuantity,
   cartRemoveItem,
-  productsFullInfoCleanUp,
+  ClearCartProductsFullInfo,
 } from "@store/cart/cartSlice";
 import { Heading } from "@components/common";
 import { Loading } from "@components/feedback";
@@ -19,7 +19,7 @@ const Cart = () => {
     dispatch(actGetProductsByItems());
 
     return () => {
-      dispatch(productsFullInfoCleanUp());
+      dispatch(ClearCartProductsFullInfo());
     };
   }, [dispatch]);
 

@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "@store/hooks";
-import { actGetWishlist, productFullInfoCleanUp } from "@store/wishlist/wishlistSlice";
+import { actGetWishlist, CleanWishlistProductFullInfo } from "@store/wishlist/wishlistSlice";
 import { useEffect } from "react";
 import { GridList, Heading } from "@components/common";
 import type { TProduct } from "src/types/product";
@@ -17,7 +17,7 @@ const Wishlist = () => {
     dispatch(actGetWishlist());
 
     return () => {
-      dispatch(productFullInfoCleanUp());
+      dispatch(CleanWishlistProductFullInfo());
     };
   }, [dispatch]);
 

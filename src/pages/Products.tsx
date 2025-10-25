@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { Product } from "@components/eCommerce";
 import { useAppDispatch, useAppSelector } from "@store/hooks";
-import { actGetProductsByCatPrefix, productsCleanUp } from "@store/products/productsSlice";
+import { actGetProductsByCatPrefix, cleanUpProductsRecords } from "@store/products/productsSlice";
 import { useParams } from "react-router-dom";
 import { Loading } from "@components/feedback";
 import { GridList, Heading } from "@components/common";
@@ -23,7 +23,7 @@ const Products = () => {
   useEffect(() => {
     dispatch(actGetProductsByCatPrefix(prefix as string));
     return () => {
-      dispatch(productsCleanUp());
+      dispatch(cleanUpProductsRecords());
     };
   }, [dispatch, prefix]);
 
