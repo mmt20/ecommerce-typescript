@@ -18,9 +18,10 @@ const useProducts = () => {
   }));
 
   useEffect(() => {
-    dispatch(actGetProductsByCatPrefix(prefix as string));
+    const promise = dispatch(actGetProductsByCatPrefix(prefix as string));
     return () => {
       dispatch(cleanUpProductsRecords());
+      promise.abort();
     };
   }, [dispatch, prefix]);
   return { ProductsFullInfo, loading, error, prefix };

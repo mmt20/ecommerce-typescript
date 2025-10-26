@@ -7,13 +7,13 @@ import type { TProduct } from "src/types/product";
 type TResponse = TProduct[];
 
 const actGetProductsByItems = createAsyncThunk("cart/actGetProductsByItems", async (_, thunkAPI) => {
-  const { rejectWithValue, fulfillWithValue, getState } = thunkAPI;
+  const { rejectWithValue, fulfillWithValue, getState, signal } = thunkAPI;
   const { cart } = getState() as RootState;
   const itemsId = Object.keys(cart.items);
   if (!itemsId.length) return fulfillWithValue([]);
   try {
     const conCatenatedItemsId = itemsId.map((id) => `id=${id}`).join("&");
-    const response = await axios.get<TResponse>(`/products?${conCatenatedItemsId}`);
+    const response = await axios.get<TResponse>(`/products?${conCatenatedItemsId}`, { signal });
     return response.data;
   } catch (error) {
     return rejectWithValue(axiosErrorHandler(error));

@@ -4,9 +4,9 @@ import axios from "axios";
 import { axiosErrorHandler } from "@utils";
 type TResponse = TProduct[];
 const actGetWishlist = createAsyncThunk("products/actGetWishlist", async (_, thunkAPI) => {
-  const { rejectWithValue, fulfillWithValue } = thunkAPI;
+  const { rejectWithValue, fulfillWithValue, signal } = thunkAPI;
   try {
-    const userWishlist = await axios.get<{ productId: number }[]>("/wishlist?user_id=1");
+    const userWishlist = await axios.get<{ productId: number }[]>("/wishlist?user_id=1", { signal });
     if (!userWishlist.data.length) {
       return fulfillWithValue([]);
     }
