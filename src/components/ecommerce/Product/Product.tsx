@@ -4,7 +4,7 @@ import { Button, Spinner } from "react-bootstrap";
 import styles from "./styles.module.css";
 import Like from "@assets/svg/like.svg?react";
 import LikeFill from "@assets/svg/like-fill.svg?react";
-import type { TProduct } from "src/types/product";
+import type { TProduct } from "@types";
 import { addToCart } from "@store/cart/cartSlice";
 import { actLikeToggle } from "@store/wishlist/wishlistSlice";
 const { product, productImg, maximumNotice, wishlistBtn } = styles;

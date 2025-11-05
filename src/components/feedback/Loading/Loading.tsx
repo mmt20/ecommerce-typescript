@@ -1,4 +1,4 @@
-import type { TLoadingStatus } from "src/types/shared";
+import type { TLoadingStatus } from "@types";
 
 type LoadingProps = {
   status: TLoadingStatus;

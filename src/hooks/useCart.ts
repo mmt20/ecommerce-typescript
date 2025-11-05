@@ -6,7 +6,7 @@ import {
 } from "@store/cart/cartSlice";
 import { useAppDispatch, useAppSelector } from "@store/hooks";
 import { useCallback, useEffect } from "react";
-import type { TProduct } from "src/types/product";
+import type { TProduct } from "@types";
 
 const useCart = () => {
   const dispatch = useAppDispatch();

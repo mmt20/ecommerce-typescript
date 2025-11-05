@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import type { TProduct } from "src/types/product";
+import type { TProduct } from "@types";
 import axios from "axios";
 import { axiosErrorHandler } from "@utils";
 type TResponse = TProduct[];

@@ -1,5 +1,5 @@
 import { GridList, Heading } from "@components/common";
-import type { TProduct } from "src/types/product";
+import type { TProduct } from "@types";
 import { Container } from "react-bootstrap";
 import { Loading } from "@components/feedback";
 import { Product } from "@components/eCommerce";
