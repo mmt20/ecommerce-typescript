@@ -13,7 +13,11 @@ const Products = () => {
       <Heading title={`${prefix?.toUpperCase()} Products`} />
 
       <Loading type="product" status={loading} error={error}>
-        <GridList<TProduct> records={ProductsFullInfo} renderItem={(record) => <Product {...record} />} />
+        <GridList<TProduct>
+          emptyMessage="There are no products"
+          records={ProductsFullInfo}
+          renderItem={(record) => <Product {...record} />}
+        />
       </Loading>
     </Container>
   );

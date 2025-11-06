@@ -1,8 +1,10 @@
-import { Container } from "react-bootstrap";
-import styles from "./styles.module.css";
-import { Footer, Header } from "@components/common";
 import { Outlet } from "react-router-dom";
+import { Container } from "react-bootstrap";
+import { Header, Footer } from "@components/common";
+
+import styles from "./styles.module.css";
 const { container, wrapper } = styles;
+
 const MainLayout = () => {
   return (
     <Container className={container}>
