@@ -11,7 +11,7 @@ const Wishlist = () => {
     <div>
       <Container>
         <Heading title="Wishlist" />
-        <Loading status={loading} error={error}>
+        <Loading type="product" status={loading} error={error}>
           <GridList<TProduct> records={records} renderItem={(record) => <Product {...record} />} />
         </Loading>
       </Container>

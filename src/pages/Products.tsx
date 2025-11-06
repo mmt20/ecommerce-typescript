@@ -12,7 +12,7 @@ const Products = () => {
     <Container>
       <Heading title={`${prefix?.toUpperCase()} Products`} />
 
-      <Loading status={loading} error={error}>
+      <Loading type="product" status={loading} error={error}>
         <GridList<TProduct> records={ProductsFullInfo} renderItem={(record) => <Product {...record} />} />
       </Loading>
     </Container>
