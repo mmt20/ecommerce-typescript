@@ -1,11 +1,18 @@
+import { useAppDispatch, useAppSelector } from "@store/hooks";
+import { actAuthRegister } from "@store/auth/authSlice";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signUpSchema, type signUpType } from "@validations/signUpSchema";
 import { Heading } from "@components/common";
-import { Col, Row, Button, Form } from "react-bootstrap";
+import { Col, Row, Button, Form, Spinner } from "react-bootstrap";
 import { Input } from "@components/Form";
 import useCheckEmailAvailability from "@hooks/useCheckEmailAvailability";
+import { useNavigate } from "react-router-dom";
 const Register = () => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const { loading, error } = useAppSelector((state) => state.auth);
+
   const { emailAvailabilityStatus, checkEmailAvailability, enteredEmail, resetCheckEmailAvailability } =
     useCheckEmailAvailability();
 
@@ -20,8 +27,21 @@ const Register = () => {
     resolver: zodResolver(signUpSchema),
   });
 
-  const submitForm: SubmitHandler<signUpType> = (data) => {
-    console.log(data);
+  const submitForm: SubmitHandler<signUpType> = async (data) => {
+    const { firstName, lastName, email, password } = data;
+
+    await dispatch(
+      actAuthRegister({
+        firstName,
+        lastName,
+        email,
+        password,
+      })
+    )
+      .unwrap()
+      .then(() => {
+        navigate("/login?message=account_created");
+      });
   };
   const emailOnBlurHandler = async (e: React.FocusEvent<HTMLInputElement>) => {
     await trigger("email");
@@ -85,10 +105,17 @@ const Register = () => {
               variant="info"
               type="submit"
               style={{ color: "white" }}
-              disabled={emailAvailabilityStatus === "checking" ? true : false}
+              disabled={emailAvailabilityStatus === "checking" ? true : loading === "pending" ? true : false}
             >
-              Submit
+              {loading === "pending" ? (
+                <>
+                  <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" /> Loading...
+                </>
+              ) : (
+                "Register"
+              )}
             </Button>
+            {error && <p className="text-danger mt-2">{error}</p>}
           </Form>
         </Col>
       </Row>
