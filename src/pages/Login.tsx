@@ -1,12 +1,18 @@
-import { useSearchParams } from "react-router";
+import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "@store/hooks";
+import { actAuthLogin, resetUI } from "@store/auth/authSlice";
+import { useNavigate, useSearchParams } from "react-router";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signInSchema, signInType } from "@validations/signInSchema";
 import { Heading } from "@components/common";
 import Input from "@components/Form/Input/Input";
-import { Form, Button, Row, Col, Alert } from "react-bootstrap";
+import { Form, Button, Row, Col, Alert, Spinner } from "react-bootstrap";
 
 const Login = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const { loading, error } = useAppSelector((state) => state.auth);
   const [searchParams, setSearchParams] = useSearchParams();
   const {
     register,
@@ -17,9 +23,22 @@ const Login = () => {
     resolver: zodResolver(signInSchema),
   });
 
-  const submitForm: SubmitHandler<signInType> = (data) => {
-    console.log(data);
+  const submitForm: SubmitHandler<signInType> = async (data) => {
+    if (searchParams.get("message")) {
+      setSearchParams({});
+    }
+    await dispatch(actAuthLogin(data))
+      .unwrap()
+      .then(() => {
+        navigate("/");
+      });
   };
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetUI());
+    };
+  }, [dispatch]);
   return (
     <>
       <Heading title="User Login" />
@@ -37,9 +56,21 @@ const Login = () => {
               register={register}
               error={errors.password?.message}
             />
-            <Button variant="info" type="submit" style={{ color: "white" }}>
-              Submit
+            <Button
+              variant="info"
+              type="submit"
+              style={{ color: "white" }}
+              disabled={loading === "pending" ? true : false}
+            >
+              {loading === "pending" ? (
+                <>
+                  <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" /> Loading...
+                </>
+              ) : (
+                "Login"
+              )}
             </Button>
+            {error && <p className="text-danger mt-2">{error}</p>}
           </Form>
         </Col>
       </Row>
