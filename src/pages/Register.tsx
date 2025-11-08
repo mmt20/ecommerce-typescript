@@ -1,67 +1,21 @@
-import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "@store/hooks";
-import { actAuthRegister, resetUI } from "@store/auth/authSlice";
-import { useForm, type SubmitHandler } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { signUpSchema, type signUpType } from "@validations/signUpSchema";
 import { Heading } from "@components/common";
 import { Col, Row, Button, Form, Spinner } from "react-bootstrap";
 import { Input } from "@components/Form";
-import useCheckEmailAvailability from "@hooks/useCheckEmailAvailability";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate } from "react-router";
+import useRegister from "@hooks/useRegister";
+
 const Register = () => {
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-  const { loading, error, accessToken } = useAppSelector((state) => state.auth);
-
-  const { emailAvailabilityStatus, checkEmailAvailability, enteredEmail, resetCheckEmailAvailability } =
-    useCheckEmailAvailability();
-
   const {
-    register,
+    accessToken,
+    emailAvailabilityStatus,
+    emailOnBlurHandler,
+    error,
+    formErrors,
     handleSubmit,
-    getFieldState,
-    trigger,
-    formState: { errors },
-  } = useForm<signUpType>({
-    mode: "onBlur",
-    resolver: zodResolver(signUpSchema),
-  });
-
-  const submitForm: SubmitHandler<signUpType> = async (data) => {
-    const { firstName, lastName, email, password } = data;
-
-    await dispatch(
-      actAuthRegister({
-        firstName,
-        lastName,
-        email,
-        password,
-      })
-    )
-      .unwrap()
-      .then(() => {
-        navigate("/login?message=account_created");
-      });
-  };
-  const emailOnBlurHandler = async (e: React.FocusEvent<HTMLInputElement>) => {
-    await trigger("email");
-    const value = e.target.value;
-    const { isDirty, invalid } = getFieldState("email");
-    if (isDirty && !invalid && enteredEmail !== value) {
-      checkEmailAvailability(value);
-    }
-
-    if (isDirty && invalid && enteredEmail) {
-      resetCheckEmailAvailability();
-    }
-  };
-  useEffect(() => {
-    return () => {
-      dispatch(resetUI());
-    };
-  }, [dispatch]);
-
+    loading,
+    register,
+    submitForm,
+  } = useRegister();
   if (accessToken) {
     return <Navigate to="/" replace={true} />;
   }
@@ -71,16 +25,16 @@ const Register = () => {
       <Row>
         <Col md={{ span: 6, offset: 3 }}>
           <Form onSubmit={handleSubmit(submitForm)}>
-            <Input label="First Name" name="firstName" register={register} error={errors.firstName?.message} />
-            <Input label="Last Name" name="lastName" register={register} error={errors.lastName?.message} />
+            <Input label="First Name" name="firstName" register={register} error={formErrors.firstName?.message} />
+            <Input label="Last Name" name="lastName" register={register} error={formErrors.lastName?.message} />
             <Input
               name="email"
               label="Email"
               type="email"
               register={register}
               error={
-                errors.email?.message
-                  ? errors.email?.message
+                formErrors.email?.message
+                  ? formErrors.email?.message
                   : emailAvailabilityStatus === "notAvailable"
                   ? "This email is already in use."
                   : emailAvailabilityStatus === "failed"
@@ -101,14 +55,14 @@ const Register = () => {
               label="Password"
               type="password"
               register={register}
-              error={errors.password?.message}
+              error={formErrors.password?.message}
             />
             <Input
               name="confirmPassword"
               label="Confirm Password"
               type="password"
               register={register}
-              error={errors.confirmPassword?.message}
+              error={formErrors.confirmPassword?.message}
             />
             <Button
               variant="info"

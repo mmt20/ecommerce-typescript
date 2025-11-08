@@ -1,44 +1,12 @@
-import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "@store/hooks";
-import { actAuthLogin, resetUI } from "@store/auth/authSlice";
-import { Navigate, useNavigate, useSearchParams } from "react-router";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { signInSchema, signInType } from "@validations/signInSchema";
+import { Navigate } from "react-router";
+
 import { Heading } from "@components/common";
 import Input from "@components/Form/Input/Input";
 import { Form, Button, Row, Col, Alert, Spinner } from "react-bootstrap";
+import useLogin from "@hooks/useLogin";
 
 const Login = () => {
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const { loading, error, accessToken } = useAppSelector((state) => state.auth);
-  const [searchParams, setSearchParams] = useSearchParams();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<signInType>({
-    mode: "onBlur",
-    resolver: zodResolver(signInSchema),
-  });
-
-  const submitForm: SubmitHandler<signInType> = async (data) => {
-    if (searchParams.get("message")) {
-      setSearchParams({});
-    }
-    await dispatch(actAuthLogin(data))
-      .unwrap()
-      .then(() => {
-        navigate("/");
-      });
-  };
-
-  useEffect(() => {
-    return () => {
-      dispatch(resetUI());
-    };
-  }, [dispatch]);
+  const { accessToken, searchParams, handleSubmit, submitForm, register, formErrors, loading, error } = useLogin();
   if (accessToken) {
     return <Navigate to="/" replace={true} />;
   }
@@ -54,13 +22,13 @@ const Login = () => {
             <Alert variant="success">You need to login to see this content.</Alert>
           )}
           <Form onSubmit={handleSubmit(submitForm)}>
-            <Input name="email" label="Email Address" register={register} error={errors.email?.message} />
+            <Input name="email" label="Email Address" register={register} error={formErrors.email?.message} />
             <Input
               type="password"
               name="password"
               label="Password"
               register={register}
-              error={errors.password?.message}
+              error={formErrors.password?.message}
             />
             <Button
               variant="info"
