@@ -8,11 +8,11 @@ import { Heading } from "@components/common";
 import { Col, Row, Button, Form, Spinner } from "react-bootstrap";
 import { Input } from "@components/Form";
 import useCheckEmailAvailability from "@hooks/useCheckEmailAvailability";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 const Register = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { loading, error } = useAppSelector((state) => state.auth);
+  const { loading, error, accessToken } = useAppSelector((state) => state.auth);
 
   const { emailAvailabilityStatus, checkEmailAvailability, enteredEmail, resetCheckEmailAvailability } =
     useCheckEmailAvailability();
@@ -61,6 +61,10 @@ const Register = () => {
       dispatch(resetUI());
     };
   }, [dispatch]);
+
+  if (accessToken) {
+    return <Navigate to="/" replace={true} />;
+  }
   return (
     <>
       <Heading title="User Registration" />

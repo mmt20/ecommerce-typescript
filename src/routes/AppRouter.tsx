@@ -7,7 +7,6 @@ const MainLayout = lazy(() => import("@layouts/MainLayout/MainLayout"));
 
 //components
 import { LottieHandler, PageSuspenseFallback } from "@components/feedback";
-
 // pages
 const Home = lazy(() => import("@pages/Home"));
 const Categories = lazy(() => import("@pages/Categories"));
@@ -17,6 +16,10 @@ const Login = lazy(() => import("@pages/Login"));
 const Register = lazy(() => import("@pages/Register"));
 const Cart = lazy(() => import("@pages/Cart"));
 const Wishlist = lazy(() => import("@pages/Wishlist"));
+const Profile = lazy(() => import("@pages/Profile"));
+
+// protected route
+import ProtectedRoute from "@components/Auth/ProtectedRoute";
 
 const AppRouter = () => {
   const router = createBrowserRouter([
@@ -103,9 +106,21 @@ const AppRouter = () => {
         {
           path: "wishlist",
           element: (
-            <PageSuspenseFallback>
-              <Wishlist />
-            </PageSuspenseFallback>
+            <ProtectedRoute>
+              <PageSuspenseFallback>
+                <Wishlist />
+              </PageSuspenseFallback>
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "profile",
+          element: (
+            <ProtectedRoute>
+              <PageSuspenseFallback>
+                <Profile />
+              </PageSuspenseFallback>
+            </ProtectedRoute>
           ),
         },
         {

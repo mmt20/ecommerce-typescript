@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@store/hooks";
 import { actAuthLogin, resetUI } from "@store/auth/authSlice";
-import { useNavigate, useSearchParams } from "react-router";
+import { Navigate, useNavigate, useSearchParams } from "react-router";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signInSchema, signInType } from "@validations/signInSchema";
@@ -12,7 +12,7 @@ import { Form, Button, Row, Col, Alert, Spinner } from "react-bootstrap";
 const Login = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { loading, error } = useAppSelector((state) => state.auth);
+  const { loading, error, accessToken } = useAppSelector((state) => state.auth);
   const [searchParams, setSearchParams] = useSearchParams();
   const {
     register,
@@ -39,6 +39,9 @@ const Login = () => {
       dispatch(resetUI());
     };
   }, [dispatch]);
+  if (accessToken) {
+    return <Navigate to="/" replace={true} />;
+  }
   return (
     <>
       <Heading title="User Login" />
@@ -46,6 +49,9 @@ const Login = () => {
         <Col md={{ span: 6, offset: 3 }}>
           {searchParams.get("message") === "account_created" && (
             <Alert variant="success">Your account has been created successfully. Please log in.</Alert>
+          )}
+          {searchParams.get("message") === "login_required" && (
+            <Alert variant="success">You need to login to see this content.</Alert>
           )}
           <Form onSubmit={handleSubmit(submitForm)}>
             <Input name="email" label="Email Address" register={register} error={errors.email?.message} />

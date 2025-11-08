@@ -46,7 +46,9 @@ const Header = () => {
                 </>
               ) : (
                 <NavDropdown title={`Welcome: ${user?.firstName} ${user?.lastName}`} id="nav-dropdown">
-                  <NavDropdown.Item eventKey="4.1">Profile</NavDropdown.Item>
+                  <NavDropdown.Item eventKey="4.1" as={NavLink} to="/profile">
+                    Profile
+                  </NavDropdown.Item>
                   <NavDropdown.Item eventKey="4.2">Orders</NavDropdown.Item>
                   <NavDropdown.Divider />
                   <NavDropdown.Item as={NavLink} to="/" eventKey="4.4" onClick={() => dispatch(authLogout())}>
