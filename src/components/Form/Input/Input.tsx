@@ -8,6 +8,9 @@ type InputProps<TFiledValue extends FieldValues> = {
   register: UseFormRegister<TFiledValue>;
   error?: string;
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
+  formText?: string;
+  success?: string;
+  disabled?: boolean;
 };
 
 const Input = <TFiledValue extends FieldValues>({
@@ -17,6 +20,9 @@ const Input = <TFiledValue extends FieldValues>({
   name,
   error,
   onBlur,
+  formText,
+  success,
+  disabled,
 }: InputProps<TFiledValue>) => {
   const onBlurHandler = (e: React.FocusEvent<HTMLInputElement>) => {
     if (onBlur) {
@@ -33,10 +39,14 @@ const Input = <TFiledValue extends FieldValues>({
         type={type}
         placeholder="Enter First Name"
         {...register(name)}
-        isInvalid={error ? true : false}
         onBlur={onBlurHandler}
+        isInvalid={error ? true : false}
+        isValid={success ? true : false}
+        disabled={disabled}
       />
       <Form.Control.Feedback type="invalid">{error}</Form.Control.Feedback>
+      <Form.Control.Feedback type="valid">{success}</Form.Control.Feedback>
+      {formText && <Form.Text muted>{formText}</Form.Text>}
     </Form.Group>
   );
 };
