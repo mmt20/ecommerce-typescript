@@ -1,14 +1,9 @@
-import { Heading } from "@components/common";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signInSchema, type signInType } from "@validations/signInSchema";
-import { Col, Row, Form, Button } from "react-bootstrap";
-import { useForm, type SubmitHandler } from "react-hook-form";
+import { signInSchema, signInType } from "@validations/signInSchema";
+import { Heading } from "@components/common";
 import Input from "@components/Form/Input/Input";
-
-const fields: { name: keyof signInType; label: string; type?: string }[] = [
-  { name: "email", label: "Email address", type: "email" },
-  { name: "password", label: "Password", type: "password" },
-];
+import { Form, Button, Row, Col } from "react-bootstrap";
 
 const Login = () => {
   const {
@@ -23,23 +18,20 @@ const Login = () => {
   const submitForm: SubmitHandler<signInType> = (data) => {
     console.log(data);
   };
-
   return (
     <>
-      <Heading title="Login" />
+      <Heading title="User Login" />
       <Row>
         <Col md={{ span: 6, offset: 3 }}>
           <Form onSubmit={handleSubmit(submitForm)}>
-            {fields.map(({ name, label, type }) => (
-              <Input
-                key={name}
-                name={name}
-                label={label}
-                type={type}
-                register={register}
-                error={errors[name]?.message || ""}
-              />
-            ))}
+            <Input name="email" label="Email Address" register={register} error={errors.email?.message} />
+            <Input
+              type="password"
+              name="password"
+              label="Password"
+              register={register}
+              error={errors.password?.message}
+            />
             <Button variant="info" type="submit" style={{ color: "white" }}>
               Submit
             </Button>
