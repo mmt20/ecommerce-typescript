@@ -81,7 +81,12 @@ const Register = () => {
               register={register}
               error={errors.confirmPassword?.message}
             />
-            <Button variant="info" type="submit" style={{ color: "white" }}>
+            <Button
+              variant="info"
+              type="submit"
+              style={{ color: "white" }}
+              disabled={emailAvailabilityStatus === "checking" ? true : false}
+            >
               Submit
             </Button>
           </Form>
