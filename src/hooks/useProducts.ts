@@ -7,6 +7,7 @@ const useProducts = () => {
   const { prefix } = useParams<{ prefix: string }>();
   const dispatch = useAppDispatch();
   const { records, loading, error } = useAppSelector((state) => state.products);
+  const userAccessToken = useAppSelector((state) => state.auth.accessToken);
 
   const cartItems = useAppSelector((state) => state.cart.items);
   const wishlistItemsId = useAppSelector((state) => state.wishlist.itemsId);
@@ -15,6 +16,7 @@ const useProducts = () => {
     ...product,
     quantity: cartItems[product.id] || 0,
     isLiked: wishlistItemsId.includes(product.id),
+    isAuthenticated: userAccessToken ? true : false,
   }));
 
   useEffect(() => {
