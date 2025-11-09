@@ -5,7 +5,7 @@ import { CartItemList, CartSubtotalPrice } from "@components/eCommerce";
 import useCart from "@hooks/useCart";
 
 const Cart = () => {
-  const { products, error, loading, changeQuantityHandler, removeItemHandler } = useCart();
+  const { products, error, loading, userAccessToken, changeQuantityHandler, removeItemHandler } = useCart();
   return (
     <>
       <Heading title="Your Cart" />
@@ -17,7 +17,7 @@ const Cart = () => {
               changeQuantityHandler={changeQuantityHandler}
               removeItemHandler={removeItemHandler}
             />
-            <CartSubtotalPrice products={products} />
+            <CartSubtotalPrice products={products} userAccessToken={userAccessToken} />
           </>
         ) : (
           <LottieHandler type="empty" message="Your cart is empty" />
