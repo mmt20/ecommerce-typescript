@@ -4,10 +4,11 @@ import { Button, Modal, Spinner } from "react-bootstrap";
 import styles from "./styles.module.css";
 import Like from "@assets/svg/like.svg?react";
 import LikeFill from "@assets/svg/like-fill.svg?react";
+import ProductInfo from "@components/ProductInfo/ProductInfo";
 import type { TProduct } from "@types";
 import { addToCart } from "@store/cart/cartSlice";
 import { actLikeToggle } from "@store/wishlist/wishlistSlice";
-const { product, productImg, maximumNotice, wishlistBtn } = styles;
+const { maximumNotice, wishlistBtn } = styles;
 
 const Product = memo(({ id, img, title, price, quantity, max, isLiked, isAuthenticated }: TProduct) => {
   const dispatch = useAppDispatch();
@@ -57,27 +58,23 @@ const Product = memo(({ id, img, title, price, quantity, max, isLiked, isAuthent
           <Button variant="primary">Save Changes</Button>
         </Modal.Footer>
       </Modal>
-      <div className={product}>
+      <ProductInfo title={title} img={img} price={price}>
         <div className={wishlistBtn} onClick={actLikeToggleHandler}>
           {isLoading ? <Spinner animation="border" size="sm" variant="primary" /> : isLiked ? <LikeFill /> : <Like />}
         </div>
-        <div className={productImg}>
-          <img src={img} alt={title} />
-        </div>
-        <h2>{title}</h2>
-        <h3>{price.toFixed(2)} EGP</h3>
+
         <p className={maximumNotice}>
           {quantityReachedToMax ? "You reach to the limit " : `you can add ${currentRemainQuantity} item(s)`}
         </p>
         <Button
           variant="info"
-          style={{ color: "white" }}
+          style={{ color: "white", width: "100%" }}
           onClick={addToCartHandler}
           disabled={isBtnDisabled || quantityReachedToMax}
         >
           {isBtnDisabled ? <Spinner animation="border" size="sm" /> : "Add to cart"}
         </Button>
-      </div>
+      </ProductInfo>
     </>
   );
 });
