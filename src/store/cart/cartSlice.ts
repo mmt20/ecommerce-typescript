@@ -37,7 +37,13 @@ const cartSlice = createSlice({
       delete state.items[productId];
       state.productsFullInfo = state.productsFullInfo.filter((product) => product.id !== productId);
     },
-    ClearCartProductsFullInfo: (state) => {
+    clearCartProductsFullInfo: (state) => {
+      state.productsFullInfo = [];
+      state.loading = "idle";
+      state.error = null;
+    },
+    clearCartAfterPlaceOrder: (state) => {
+      state.items = {};
       state.productsFullInfo = [];
       state.loading = "idle";
       state.error = null;
@@ -65,5 +71,11 @@ const cartSlice = createSlice({
 });
 
 export { getCartTotalQuantitySelector, actGetProductsByItems };
-export const { addToCart, cartItemChangeQuantity, cartRemoveItem, ClearCartProductsFullInfo } = cartSlice.actions;
+export const {
+  addToCart,
+  cartItemChangeQuantity,
+  cartRemoveItem,
+  clearCartProductsFullInfo,
+  clearCartAfterPlaceOrder,
+} = cartSlice.actions;
 export default cartSlice.reducer;

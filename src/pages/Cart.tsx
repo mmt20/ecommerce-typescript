@@ -1,15 +1,16 @@
+import useCart from "@hooks/useCart";
 import { Heading } from "@components/common";
 import { Loading, LottieHandler } from "@components/feedback";
-
 import { CartItemList, CartSubtotalPrice } from "@components/eCommerce";
-import useCart from "@hooks/useCart";
 
 const Cart = () => {
-  const { products, error, loading, userAccessToken, changeQuantityHandler, removeItemHandler } = useCart();
+  const { loading, error, products, userAccessToken, placeOrderStatus, changeQuantityHandler, removeItemHandler } =
+    useCart();
+
   return (
     <>
       <Heading title="Your Cart" />
-      <Loading type="cart" error={error} status={loading}>
+      <Loading status={loading} error={error} type="cart">
         {products.length ? (
           <>
             <CartItemList
@@ -19,8 +20,10 @@ const Cart = () => {
             />
             <CartSubtotalPrice products={products} userAccessToken={userAccessToken} />
           </>
+        ) : placeOrderStatus === "succeeded" ? (
+          <LottieHandler message="Your order has been placed successfully" type="success" />
         ) : (
-          <LottieHandler type="empty" message="Your cart is empty" />
+          <LottieHandler message="Your cart is empty" type="empty" />
         )}
       </Loading>
     </>

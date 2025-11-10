@@ -1,27 +1,18 @@
+import { useAppSelector, useAppDispatch } from "./../store/hooks";
 import {
   actGetProductsByItems,
   cartItemChangeQuantity,
   cartRemoveItem,
-  ClearCartProductsFullInfo,
+  clearCartProductsFullInfo,
 } from "@store/cart/cartSlice";
-import { useAppDispatch, useAppSelector } from "@store/hooks";
 import { useCallback, useEffect } from "react";
 import type { TProduct } from "@types";
 
 const useCart = () => {
   const dispatch = useAppDispatch();
   const { items, productsFullInfo, error, loading } = useAppSelector((state) => state.cart);
-
+  const placeOrderStatus = useAppSelector((state) => state.order.loading);
   const userAccessToken = useAppSelector((state) => state.auth.accessToken);
-
-  useEffect(() => {
-    const promise = dispatch(actGetProductsByItems());
-
-    return () => {
-      dispatch(ClearCartProductsFullInfo());
-      promise.abort();
-    };
-  }, [dispatch]);
 
   const products = productsFullInfo.map((product: TProduct) => ({
     ...product,
@@ -41,7 +32,17 @@ const useCart = () => {
     },
     [dispatch]
   );
-  return { products, error, loading, userAccessToken, changeQuantityHandler, removeItemHandler };
+
+  useEffect(() => {
+    const promise = dispatch(actGetProductsByItems());
+
+    return () => {
+      dispatch(clearCartProductsFullInfo());
+      promise.abort();
+    };
+  }, [dispatch]);
+
+  return { products, error, loading, userAccessToken, placeOrderStatus, changeQuantityHandler, removeItemHandler };
 };
 
 export default useCart;
