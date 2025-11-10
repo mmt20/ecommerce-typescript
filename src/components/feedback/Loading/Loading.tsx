@@ -1,13 +1,15 @@
 import type { TLoadingStatus } from "@types";
-import CartSkeleton from "../CartSkeleton/CartSkeleton";
-import ProductSkeleton from "../ProductSkeleton/ProductSkeleton";
+import CartSkeleton from "../skeletons/CartSkeleton/CartSkeleton";
+import ProductSkeleton from "../skeletons/ProductSkeleton/ProductSkeleton";
 import CategorySkeleton from "../skeletons/CategorySkeleton/CategorySkeleton";
 import LottieHandler from "../LottieHandler/LottieHandler";
+import TableSkeleton from "../skeletons/TableSkeleton/TableSkeleton";
 
 const skeletonTypes = {
   product: ProductSkeleton,
   cart: CartSkeleton,
   category: CategorySkeleton,
+  table: TableSkeleton,
 };
 
 type LoadingProps = {

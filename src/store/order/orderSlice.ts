@@ -19,6 +19,7 @@ const orderSlice = createSlice({
   reducers: {
     restOrderStatus: (state) => {
       state.loading = "idle";
+      state.error = null;
     },
   },
   extraReducers: (builder) => {
