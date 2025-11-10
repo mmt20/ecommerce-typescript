@@ -7,6 +7,7 @@ import {
 } from "@store/cart/cartSlice";
 import { useCallback, useEffect } from "react";
 import type { TProduct } from "@types";
+import { restOrderStatus } from "@store/order/orderSlice";
 
 const useCart = () => {
   const dispatch = useAppDispatch();
@@ -38,6 +39,7 @@ const useCart = () => {
 
     return () => {
       dispatch(clearCartProductsFullInfo());
+      dispatch(restOrderStatus());
       promise.abort();
     };
   }, [dispatch]);
