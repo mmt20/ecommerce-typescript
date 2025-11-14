@@ -3,6 +3,7 @@ import { Container } from "react-bootstrap";
 import { Header, Footer } from "@components/common";
 
 import styles from "./styles.module.css";
+import { ToastList } from "@components/feedback";
 const { container, wrapper } = styles;
 
 const MainLayout = () => {
@@ -12,6 +13,7 @@ const MainLayout = () => {
       <div className={wrapper}>
         <Outlet />
       </div>
+      <ToastList />
       <Footer />
     </Container>
   );
