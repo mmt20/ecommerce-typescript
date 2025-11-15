@@ -8,6 +8,7 @@ import ProductInfo from "@components/ProductInfo/ProductInfo";
 import type { TProduct } from "@types";
 import { addToCart } from "@store/cart/cartSlice";
 import { actLikeToggle } from "@store/wishlist/wishlistSlice";
+import { addToast } from "@store/toasts/toastsSlice";
 const { maximumNotice, wishlistBtn } = styles;
 
 const Product = memo(({ id, img, title, price, quantity, max, isLiked, isAuthenticated }: TProduct) => {
@@ -31,6 +32,13 @@ const Product = memo(({ id, img, title, price, quantity, max, isLiked, isAuthent
 
   const addToCartHandler = () => {
     dispatch(addToCart(id));
+    dispatch(
+      addToast({
+        type: "success",
+        title: "Added to Cart",
+        message: `${title} has been added to your cart.`,
+      })
+    );
     setIsBtnDisabled(true);
   };
 
@@ -43,8 +51,26 @@ const Product = memo(({ id, img, title, price, quantity, max, isLiked, isAuthent
     setIsLoading(true);
     dispatch(actLikeToggle(id))
       .unwrap()
-      .then(() => setIsLoading(false))
-      .catch(() => setIsLoading(false));
+      .then(() => {
+        setIsLoading(false);
+        if (!isLiked) {
+          dispatch(
+            addToast({
+              type: "success",
+              message: `${title} has been added to your wishlist.`,
+            })
+          );
+        }
+      })
+      .catch(() => {
+        setIsLoading(false);
+        dispatch(
+          addToast({
+            type: "danger",
+            message: `Failed to update wishlist for ${title}. Please try again.`,
+          })
+        );
+      });
   };
   return (
     <>

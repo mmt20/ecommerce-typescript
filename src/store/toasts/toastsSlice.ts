@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction, nanoid } from "@reduxjs/toolkit";
 import { TToast } from "@types";
 
 interface IToastSlice {
@@ -44,12 +44,20 @@ const toastsSlice = createSlice({
   name: "toasts",
   initialState,
   reducers: {
-    removeToast(state, action) {
+    addToast: (state, action: PayloadAction<TToast>) => {
+      state.records.push({
+        id: nanoid(),
+        title: action.payload.title || action.payload.type,
+        type: action.payload.type,
+        message: action.payload.message,
+      });
+    },
+    removeToast: (state, action) => {
       state.records = state.records.filter((toast) => toast.id !== action.payload);
     },
   },
 });
 
-export const { removeToast } = toastsSlice.actions;
+export const { removeToast, addToast } = toastsSlice.actions;
 export default toastsSlice.reducer;
 export type { TToast };
