@@ -30,6 +30,18 @@ const Product = memo(({ id, img, title, price, quantity, max, isLiked, isAuthent
     return () => clearTimeout(debounce);
   }, [isBtnDisabled]);
 
+  useEffect(() => {
+    if (!quantityReachedToMax) return;
+
+    dispatch(
+      addToast({
+        type: "warning",
+        message: `You have reached the maximum quantity for ${title}.`,
+        displayAppearance: true,
+      })
+    );
+  }, [quantityReachedToMax, dispatch, title]);
+
   const addToCartHandler = () => {
     dispatch(addToCart(id));
     dispatch(

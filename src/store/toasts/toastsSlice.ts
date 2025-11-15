@@ -6,38 +6,7 @@ interface IToastSlice {
 }
 
 const initialState: IToastSlice = {
-  records: [
-    {
-      id: "1",
-      message: "This is a sample toast message.",
-      type: "primary",
-      title: "Sample Toast",
-    },
-    {
-      id: "2",
-      message: "This is a success toast message.",
-      type: "success",
-      title: "Success Toast",
-    },
-    {
-      id: "4",
-      message: "This is an info toast message.",
-      type: "info",
-      title: "Info Toast",
-    },
-    {
-      id: "5",
-      message: "This is a warning toast message.",
-      type: "warning",
-      title: "Warning Toast",
-    },
-    {
-      id: "6",
-      message: "This is a danger toast message.",
-      type: "danger",
-      title: "Danger Toast",
-    },
-  ],
+  records: [],
 };
 
 const toastsSlice = createSlice({
@@ -50,14 +19,23 @@ const toastsSlice = createSlice({
         title: action.payload.title || action.payload.type,
         type: action.payload.type,
         message: action.payload.message,
+        displayAppearance: action.payload.displayAppearance || false,
       });
     },
     removeToast: (state, action) => {
       state.records = state.records.filter((toast) => toast.id !== action.payload);
     },
+    stopDisplayAppearance: (state, action) => {
+      state.records.map((toast) => {
+        if (toast.id === action.payload) {
+          return (toast.displayAppearance = false);
+        }
+        return toast;
+      });
+    },
   },
 });
 
-export const { removeToast, addToast } = toastsSlice.actions;
+export const { removeToast, addToast, stopDisplayAppearance } = toastsSlice.actions;
 export default toastsSlice.reducer;
 export type { TToast };
